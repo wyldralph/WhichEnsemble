@@ -12,11 +12,11 @@ export const ensembles=[
 group('Hi-Gain','Tuesday · 17:00–19:00',4,10,[...woodwind,...brass,'Guitar','Bass guitar','Drums / Percussion','Piano / Keyboard','Voice / Singing']),
 group('Training Brass Ensemble','Saturday · 09:00–10:00',0,5,brass),
 group('Training Orchestra','Saturday · 09:15–10:00',2,6,orchestra),
-group('Prep Choir (ages 6–8)','Saturday · 09:30–10:00',0,10,'all','4-8'),
+group('Prep Choir','Saturday · 09:30–10:00',0,10,'all','6-8'),
 group('Chamber Strings','Saturday · 09:30–10:00',7,10,strings),
 group('Sax & Clarinet Ensemble','Saturday · 09:15–10:00',4,10,['Saxophone','Clarinet']),
-group('Music for Munchkins','Saturday · 10:00–10:45',0,10,'all','4-8'),
-group('Musikids','Saturday · 10:00–10:45',0,10,'all','4-8'),
+group('Music for Munchkins','Saturday · 10:00–10:45',0,10,'all','4-6'),
+group('Musikids','Saturday · 10:00–10:45',0,10,'all','6-8'),
 group('Training Guitars','Saturday · 10:00–10:45',1,3,['Guitar']),
 group('Training Strings','Saturday · 10:00–10:45',1,3,strings),
 group('Training Wind Band','Saturday · 10:00–10:45',2,4,wind),
@@ -35,13 +35,19 @@ group('Concert Band','Saturday · 12:00–13:00',6,10,wind),
 group('Chamber Brass','Saturday · 13:00–13:30',6,10,brass)
 ];
 export function matches(instrument,level,age) {
-if(!instruments.includes(instrument)||!['4-8','9-13','14-18','adult'].includes(age))return [];
+if(!instruments.includes(instrument)||(age!=='adult'&&(!Number.isInteger(age)||age<4||age>18)))return [];
+const ageMatches=e=>{
+if(age==='adult')return e.age==='adult';
+if(e.age==='adult')return false;
+if(e.age==='young')return true;
+const [min,max]=e.age.split('-').map(Number);
+return age>=min&&age<=max;
+};
 if(instrument===noInstrument){
-if(age==='4-8')return ensembles.filter(e=>e.age==='4-8');
-if(age==='adult')return ensembles.filter(e=>e.name==='Adult Choir');
-if(age==='9-13')return [...ensembles.filter(e=>e.age==='9-13'),{name:'Music Majors (including Theory Investigation)',time:'Saturday · Instrumental: 09:15–10:00; Theory Investigation: 11:00–11:30'}];
-return [];
+const results=ensembles.filter(e=>e.age!=='young'&&e.name!=='Amersham Community Orchestra'&&ageMatches(e));
+if(age!=='adult'&&age>=9&&age<=13)results.push({name:'Music Majors (including Theory Investigation)',time:'Saturday · Instrumental: 09:15–10:00; Theory Investigation: 11:00–11:30'});
+return results;
 }
 if(!Number.isInteger(level)||level<0||level>10)return [];
-return ensembles.filter(e=>(age==='adult'?e.age==='adult':e.age==='young'||e.age===age)&&level>=e.min&&level<=e.max&&(e.accepted==='all'||e.accepted.includes(instrument)));
+return ensembles.filter(e=>ageMatches(e)&&level>=e.min&&level<=e.max&&(e.accepted==='all'||e.accepted.includes(instrument)));
 }
