@@ -12,6 +12,7 @@ export const ensembles=[
 group('Hi-Gain','Tuesday · 17:00–19:00',4,10,[...woodwind,...brass,'Guitar','Bass guitar','Drums / Percussion','Piano / Keyboard','Voice / Singing']),
 group('Training Brass Ensemble','Saturday · 09:00–10:00',0,5,brass),
 group('Training Orchestra','Saturday · 09:15–10:00',2,6,orchestra),
+group('Prep Choir (ages 6–8)','Saturday · 09:30–10:00',0,10,'all','4-8'),
 group('Chamber Strings','Saturday · 09:30–10:00',7,10,strings),
 group('Sax & Clarinet Ensemble','Saturday · 09:15–10:00',4,10,['Saxophone','Clarinet']),
 group('Music for Munchkins','Saturday · 10:00–10:45',0,10,'all','4-8'),
@@ -28,6 +29,7 @@ group('Adult Choir','Saturday · 10:45–11:45',0,10,'all','adult'),
 group('Youth Orchestra','Saturday · 11:00–12:00',6,10,orchestra),
 group('Intermediate Wind Band','Saturday · 11:00–12:00',4,6,wind),
 group('Amersham Community Orchestra','Saturday · 11:45–13:00',5,10,orchestra,'adult'),
+group('Intermediate Choir','Saturday · 12:00–12:45',0,10,'all','9-13'),
 group('String Ensemble','Saturday · 12:00–13:00',7,10,strings),
 group('Concert Band','Saturday · 12:00–13:00',6,10,wind),
 group('Chamber Brass','Saturday · 13:00–13:30',6,10,brass)
@@ -37,7 +39,7 @@ if(!instruments.includes(instrument)||!['4-8','9-13','14-18','adult'].includes(a
 if(instrument===noInstrument){
 if(age==='4-8')return ensembles.filter(e=>e.age==='4-8');
 if(age==='adult')return ensembles.filter(e=>e.name==='Adult Choir');
-if(age==='9-13')return [{name:'Music Majors (including Theory Investigation)',time:'Saturday · Instrumental: 09:15–10:00; Theory Investigation: 11:00–11:30'}];
+if(age==='9-13')return [...ensembles.filter(e=>e.age==='9-13'),{name:'Music Majors (including Theory Investigation)',time:'Saturday · Instrumental: 09:15–10:00; Theory Investigation: 11:00–11:30'}];
 return [];
 }
 if(!Number.isInteger(level)||level<0||level>10)return [];
