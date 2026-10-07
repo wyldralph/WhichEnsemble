@@ -5,7 +5,8 @@ const brass=['Trumpet / Cornet','French horn','Tenor horn','Trombone','Euphonium
 const percussion=['Drums / Percussion'];
 const wind=[...woodwind,...brass,...percussion];
 const orchestra=[...strings,...wind,'Piano / Keyboard'];
-export const instruments=[...strings,...woodwind,...brass,...percussion,'Piano / Keyboard','Guitar','Bass guitar','Voice / Singing','Other instrument'];
+export const noInstrument = 'I don’t play an instrument yet';
+export const instruments=[noInstrument,...strings,...woodwind,...brass,...percussion,'Piano / Keyboard','Guitar','Bass guitar','Voice / Singing','Other instrument'];
 const group=(name,time,min,max,accepted='all',age='young')=>({name,time,min,max,accepted,age});
 export const ensembles=[
 group('Hi-Gain','Tuesday · 17:00–19:00',4,10,[...woodwind,...brass,'Guitar','Bass guitar','Drums / Percussion','Piano / Keyboard','Voice / Singing']),
@@ -32,6 +33,13 @@ group('Concert Band','Saturday · 12:00–13:00',6,10,wind),
 group('Chamber Brass','Saturday · 13:00–13:30',6,10,brass)
 ];
 export function matches(instrument,level,age) {
-if(!instruments.includes(instrument)||!Number.isInteger(level)||level<0||level>10||!['4-8','9-18','adult'].includes(age))return [];
+if(!instruments.includes(instrument)||!['4-8','9-13','14-18','adult'].includes(age))return [];
+if(instrument===noInstrument){
+if(age==='4-8')return ensembles.filter(e=>e.age==='4-8');
+if(age==='adult')return ensembles.filter(e=>e.name==='Adult Choir');
+if(age==='9-13')return [{name:'Music Majors (including Theory Investigation)',time:'Saturday · Instrumental: 09:15–10:00; Theory Investigation: 11:00–11:30'}];
+return [];
+}
+if(!Number.isInteger(level)||level<0||level>10)return [];
 return ensembles.filter(e=>(age==='adult'?e.age==='adult':e.age==='young'||e.age===age)&&level>=e.min&&level<=e.max&&(e.accepted==='all'||e.accepted.includes(instrument)));
 }
