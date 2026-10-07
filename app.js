@@ -6,7 +6,14 @@ const list=document.querySelector('#matches');list.replaceChildren();const ready
 const allGroups=ready?matches(instrument.value,level,selectedAge):[];
 const groups=allGroups.filter(group=>showChoirs.checked||!group.name.includes('Choir'));
 document.querySelector('#count').textContent=ready?groups.length+' found':'';
-document.querySelector('#status').textContent=!ready?'Choose your instrument and enter your age, or select Adult, to see suitable ensembles.':groups.length?groups.length+' suitable '+(groups.length===1?'group':'groups')+' found.':allGroups.length?'No groups to show with choirs switched off. Turn on Show choirs to see your matches.':beginner?'Please contact Amersham Music Centre about starting an instrument.':'No matching ensembles at this standard. Please contact Amersham Music Centre to discuss options.';
+document.querySelector('#status').textContent=!ready?'Choose your instrument and enter your age, or select Adult, to see suitable ensembles.':groups.length?groups.length+' suitable '+(groups.length===1?'group':'groups')+' found.':allGroups.length?'No groups to show with choirs switched off. Turn on Include choirs to see your matches.':beginner?'Please contact Amersham Music Centre about starting an instrument.':'No matching ensembles at this standard. Please contact Amersham Music Centre to discuss options.';
+const emailAction=document.querySelector('#email-action'),emailLink=document.querySelector('#email-draft');
+emailAction.hidden=!groups.length;
+if(groups.length){
+const opening=selectedAge==='adult'?'I would':'My child would';
+const body=['Dear Amersham Music Centre,','',opening+' be interested in trying out the following groups:','',...groups.map(group=>'- '+group.name),'','Instrument: '+instrument.value,'Age: '+(selectedAge==='adult'?'Adult':selectedAge),'','Thank you'].join('\r\n');
+emailLink.href='mailto:ammusic@bucksmusic.org?subject='+encodeURIComponent('Enquiry about trying Amersham Music Centre groups')+'&body='+encodeURIComponent(body);
+}else emailLink.removeAttribute('href');
 document.querySelector('#status').classList.toggle('visually-hidden',!!groups.length);
 for(const group of groups){const li=document.createElement('li'),name=document.createElement('h3'),time=document.createElement('p');name.textContent=group.name;time.textContent=group.time;if(group.name.startsWith('Music Majors'))time.style.whiteSpace='normal';li.append(name,time);list.append(li);}}
 instrument.addEventListener('change',render);age.addEventListener('change',render);childAge.addEventListener('input',render);slider.addEventListener('input',render);showChoirs.addEventListener('change',render);render();
