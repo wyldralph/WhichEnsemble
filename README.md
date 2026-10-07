@@ -1,6 +1,6 @@
 # Amersham Music Centre ensemble finder
 
-A small static app using the 2026/27 timetable. Select an instrument, age group and approximate playing standard. Results show ensemble name, day and time.
+A small static app using the 2026/27 timetable. Select an instrument, age and approximate playing standard. Results show ensemble name, day and time.
 
 ## Netlify
 Import this GitHub repository into your Netlify account. No build command is required. The publish directory is the repository root (configured in netlify.toml). Connect the main branch so later commits update the site.
@@ -15,11 +15,11 @@ The iframe scrolls if the results exceed its height. The deployed address also w
 ## Update the timetable
 Edit data.js: each group has a name, day/time, minimum and maximum slider index, accepted instruments, and age category. Slider indices: 0 = 1 term to 1 year; 1 = 1 year; 2 = Grade 1; through 9 = Grade 8; 10 = Grade 8+.
 
-Boundaries are inclusive. There is no one-grade-below matching. Prep Orchestra runs through Grade 1; Training Percussion through one year; Intermediate Percussion from one year upwards. The 4–8 option includes both Munchkins and Musikids at all slider levels, with their individual age ranges shown below results.
+Boundaries are inclusive. There is no one-grade-below matching. Prep Orchestra runs through Grade 1; Training Percussion through one year; Intermediate Percussion from one year upwards.
 
-Adults see only Adult Choir (any instrument/standard) and Community Orchestra (orchestral instruments, Grade 4+). Youth choirs match by age, regardless of instrument or standard: Prep Choir (ages 6–8) appears under 4–8 with its age restriction in the name; Intermediate Choir appears under 9–13. Both are also shown for non-players. Standalone theory is excluded.
+Choose Child / young person and enter a whole-number age from 4 to 18, or choose Adult without an age entry. Eighteen-year-olds remain in youth groups. Age-specific groups: Munchkins 4–6; Musikids 6–8; Prep Choir 6–8; Intermediate Choir 9–13. Other youth ensembles retain their instrument/standard rules.
 
-The first instrument option is “I don’t play an instrument yet”. It hides the standard slider and shows Munchkins, Musikids and Prep Choir (ages 6–8) for ages 4–8, Music Majors including Theory Investigation and Intermediate Choir for ages 9–13, a contact message for ages 14–18, and Adult Choir for adults. Music Majors displays the instrumental and Theory Investigation times listed in the supplied timetable. Age categories are 4–8, 9–13, 14–18 and Adult; both middle categories share the same instrument-based matching rules.
+The first instrument option is “I don’t play an instrument yet”. It hides the standard slider and shows the age-specific groups above, plus Music Majors including Theory Investigation for ages 9–13. Non-players aged 14–18 see a contact message. Adult non-players see only Adult Choir. Adult players see Adult Choir and, where instrument/standard permits, Community Orchestra. Standalone theory is excluded.
 
 Orchestras include strings, woodwind, brass, percussion and piano/keyboard. Hi-Gain treats horns as woodwind and brass. These broad instrument categories can be refined in data.js if needed.
 
