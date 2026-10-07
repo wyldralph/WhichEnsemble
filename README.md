@@ -17,7 +17,9 @@ Edit data.js: each group has a name, day/time, minimum and maximum slider index,
 
 Boundaries are inclusive. There is no one-grade-below matching. Prep Orchestra runs through Grade 1; Training Percussion through one year; Intermediate Percussion from one year upwards. The 4–8 option includes both Munchkins and Musikids at all slider levels, with their individual age ranges shown below results.
 
-Adults see only Adult Choir (any instrument/standard) and Community Orchestra (orchestral instruments, Grade 4+). Other choirs, theory and Music Majors are excluded.
+Adults see only Adult Choir (any instrument/standard) and Community Orchestra (orchestral instruments, Grade 4+). Other choirs and standalone theory are excluded.
+
+The first instrument option is “I don’t play an instrument yet”. It hides the standard slider and shows Munchkins and Musikids for ages 4–8, Music Majors including Theory Investigation for ages 9–13, a contact message for ages 14–18, and Adult Choir for adults. Music Majors displays the instrumental and Theory Investigation times listed in the supplied timetable. Age categories are 4–8, 9–13, 14–18 and Adult; both middle categories share the same instrument-based matching rules.
 
 Orchestras include strings, woodwind, brass, percussion and piano/keyboard. Hi-Gain treats horns as woodwind and brass. These broad instrument categories can be refined in data.js if needed.
 
