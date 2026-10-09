@@ -11,6 +11,7 @@ emailLink.hidden=!selected.length;
 document.querySelector('#email-help').hidden=!selected.length;
 document.querySelector('#selection-help').hidden=!!selected.length;
 document.querySelector('#selected-count').textContent=selected.length+' selected';
+document.querySelector('#toggle-selection').textContent=selected.length?'Deselect all':'Select all';
 if(selected.length){
 const selectedAge=age.value==='adult'?'Adult':childAge.valueAsNumber;
 const opening=age.value==='adult'?'I would':'My child would';
@@ -45,6 +46,9 @@ details.append(name,time);label.append(checkbox,details);li.append(label);list.a
 }
 updateEmail();
 }
-document.querySelector('#select-all').addEventListener('click',()=>{for(const group of visibleGroups)deselected.delete(group.name);render();});
-document.querySelector('#deselect-all').addEventListener('click',()=>{for(const group of visibleGroups)deselected.add(group.name);render();});
+document.querySelector('#toggle-selection').addEventListener('click',()=>{
+const anySelected=visibleGroups.some(group=>!deselected.has(group.name));
+for(const group of visibleGroups){if(anySelected)deselected.add(group.name);else deselected.delete(group.name);}
+render();
+});
 instrument.addEventListener('change',render);age.addEventListener('change',render);childAge.addEventListener('input',render);slider.addEventListener('input',render);showChoirs.addEventListener('change',render);render();
