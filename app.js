@@ -15,7 +15,7 @@ document.querySelector('#toggle-selection').textContent=selected.length?'Deselec
 if(selected.length){
 const selectedAge=age.value==='adult'?'Adult':childAge.valueAsNumber;
 const opening=age.value==='adult'?'I would':'My child would';
-const body=['Dear Amersham Music Centre,','',opening+' be interested in trying out the following groups:','',...selected.map(group=>'- '+group.name),'','Instrument: '+instrument.value,'Age: '+selectedAge,'','Thank you'].join('\r\n');
+const body=['Dear Amersham Music Centre,','',opening+' be interested in trying out the following groups:','',...selected.map(group=>'- '+group.name+' — '+group.time),'','Instrument: '+instrument.value,'Age: '+selectedAge,'','Thank you'].join('\r\n');
 emailLink.href='mailto:ammusic@bucksmusic.org?subject='+encodeURIComponent('Enquiry about trying Amersham Music Centre groups')+'&body='+encodeURIComponent(body);
 }else emailLink.removeAttribute('href');
 }
