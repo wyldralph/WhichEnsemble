@@ -39,8 +39,8 @@ if(!instruments.includes(instrument)||(age!=='adult'&&(!Number.isInteger(age)||a
 const ageMatches=e=>{
 if(age==='adult')return e.age==='adult';
 if(e.age==='adult')return false;
-// Ages 4–6 may only join the two early-years groups.
-if(age<=6&&!['Music for Munchkins','Musikids'].includes(e.name))return false;
+// Ages 4–6 may join early-years groups and age-eligible Prep Choir.
+if(age<=6&&!['Music for Munchkins','Musikids','Prep Choir'].includes(e.name))return false;
 if(e.age==='young')return true;
 const [min,max]=e.age.split('-').map(Number);
 return age>=min&&age<=max;
