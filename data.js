@@ -12,7 +12,7 @@ export const ensembles=[
 group('Hi-Gain','Tuesday · 17:00–19:00',4,10,[...woodwind,...brass,'Guitar','Bass guitar','Drums / Percussion','Piano / Keyboard','Voice / Singing']),
 group('Training Brass Ensemble','Saturday · 09:00–10:00',0,5,brass),
 group('Training Orchestra','Saturday · 09:15–10:00',2,6,orchestra),
-group('Prep Choir','Saturday · 09:30–10:00',0,10,'all','6-8'),
+group('Prep Choir','Saturday · 09:30–10:00',0,10,'all','5-9'),
 group('Chamber Strings','Saturday · 09:30–10:00',7,10,strings),
 group('Sax & Clarinet Ensemble','Saturday · 09:15–10:00',4,10,['Saxophone','Clarinet']),
 group('Music for Munchkins','Saturday · 10:00–10:45',0,10,'all','4-6'),
@@ -39,6 +39,8 @@ if(!instruments.includes(instrument)||(age!=='adult'&&(!Number.isInteger(age)||a
 const ageMatches=e=>{
 if(age==='adult')return e.age==='adult';
 if(e.age==='adult')return false;
+// Ages 4–6 may only join the two early-years groups.
+if(age<=6&&!['Music for Munchkins','Musikids'].includes(e.name))return false;
 if(e.age==='young')return true;
 const [min,max]=e.age.split('-').map(Number);
 return age>=min&&age<=max;
