@@ -1,5 +1,5 @@
 import {instruments,levels,matches,noInstrument} from './data.js';
-const instrument=document.querySelector('#instrument'),age=document.querySelector('#age'),slider=document.querySelector('#standard'),childAge=document.querySelector('#child-age'),showChoirs=document.querySelector('#show-choirs');
+const instrument=document.querySelector('#instrument'),age=document.querySelector('#age'),slider=document.querySelector('#standard'),showChoirs=document.querySelector('#show-choirs');
 const deselected=new Set();
 let visibleGroups=[];
 for(const name of instruments){const option=document.createElement('option');option.value=name;option.textContent=name;instrument.append(option);}
@@ -13,16 +13,15 @@ document.querySelector('#selection-help').hidden=!!selected.length;
 document.querySelector('#selected-count').textContent=selected.length+' selected';
 document.querySelector('#toggle-selection').textContent=selected.length?'Deselect all':'Select all';
 if(selected.length){
-const selectedAge=age.value==='adult'?'Adult':childAge.valueAsNumber;
+const selectedAge=age.value==='adult'?'Adult':Number(age.value);
 const opening=age.value==='adult'?'I would':'My child would';
 const body=['Dear Amersham Music Centre,','',opening+' be interested in trying out the following groups:','',...selected.map(group=>'- '+group.name+' — '+group.time),'','Instrument: '+instrument.value,'Age: '+selectedAge,'','Thank you'].join('\r\n');
 emailLink.href='mailto:ammusic@bucksmusic.org?subject='+encodeURIComponent('Enquiry about trying Amersham Music Centre groups')+'&body='+encodeURIComponent(body);
 }else emailLink.removeAttribute('href');
 }
 function render(){
-document.querySelector('#child-age-controls').hidden=age.value!=='young';
-const selectedAge=age.value==='adult'?'adult':childAge.valueAsNumber;
-const validAge=age.value==='adult'||(age.value==='young'&&childAge.value!==''&&childAge.validity.valid);
+const selectedAge=age.value==='adult'?'adult':Number(age.value);
+const validAge=age.value==='adult'||(age.value!==''&&Number.isInteger(selectedAge)&&selectedAge>=4&&selectedAge<=18);
 const beginner=instrument.value===noInstrument;
 document.querySelector('#standard-controls').hidden=beginner;
 const level=Number(slider.value);
@@ -35,7 +34,7 @@ const allGroups=ready?matches(instrument.value,level,selectedAge):[];
 visibleGroups=allGroups.filter(group=>showChoirs.checked||!group.name.includes('Choir'));
 document.querySelector('#count').textContent=ready?visibleGroups.length+' found':'';
 document.querySelector('#selection-controls').hidden=!visibleGroups.length;
-document.querySelector('#status').textContent=!ready?'Choose your instrument and enter your age, or select Adult, to see suitable ensembles.':visibleGroups.length?visibleGroups.length+' suitable '+(visibleGroups.length===1?'group':'groups')+' found.':allGroups.length?'No groups to show with choirs switched off. Turn on Include choirs to see your matches.':beginner?'Please contact Amersham Music Centre about starting an instrument.':'No matching ensembles at this standard. Please contact Amersham Music Centre to discuss options.';
+document.querySelector('#status').textContent=!ready?'Choose your instrument and age to see suitable ensembles.':visibleGroups.length?visibleGroups.length+' suitable '+(visibleGroups.length===1?'group':'groups')+' found.':allGroups.length?'No groups to show with choirs switched off. Turn on Include choirs to see your matches.':beginner?'Please contact Amersham Music Centre about starting an instrument.':'No matching ensembles at this standard. Please contact Amersham Music Centre to discuss options.';
 document.querySelector('#status').classList.toggle('visually-hidden',!!visibleGroups.length);
 for(const group of visibleGroups){
 const li=document.createElement('li'),label=document.createElement('label'),checkbox=document.createElement('input'),details=document.createElement('span'),name=document.createElement('span'),time=document.createElement('span');
@@ -51,4 +50,4 @@ const anySelected=visibleGroups.some(group=>!deselected.has(group.name));
 for(const group of visibleGroups){if(anySelected)deselected.add(group.name);else deselected.delete(group.name);}
 render();
 });
-instrument.addEventListener('change',render);age.addEventListener('change',render);childAge.addEventListener('input',render);slider.addEventListener('input',render);showChoirs.addEventListener('change',render);render();
+instrument.addEventListener('change',render);age.addEventListener('change',render);slider.addEventListener('input',render);showChoirs.addEventListener('change',render);render();
