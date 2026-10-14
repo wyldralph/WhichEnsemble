@@ -30,6 +30,7 @@ slider.setAttribute('aria-valuetext',levels[level]);
 slider.style.setProperty('--progress',(level/10*100)+'%');
 const list=document.querySelector('#matches');list.replaceChildren();
 const ready=instrument.value&&validAge;
+document.querySelector('#county-message').hidden=!(ready&&!beginner&&selectedAge!=='adult'&&level>=levels.indexOf('Grade 6'));
 const allGroups=ready?matches(instrument.value,level,selectedAge):[];
 visibleGroups=allGroups.filter(group=>showChoirs.checked||!group.name.includes('Choir'));
 document.querySelector('#count').textContent=ready?visibleGroups.length+' found':'';
