@@ -3,8 +3,26 @@ const instrument=document.querySelector('#instrument'),age=document.querySelecto
 const deselected=new Set();
 let visibleGroups=[];
 for(const name of instruments){const option=document.createElement('option');option.value=name;option.textContent=name;instrument.append(option);}
+function sessions(group){
+const day=group.time.match(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)/)?.[0];
+return [...group.time.matchAll(/(\d{2}):(\d{2})[–-](\d{2}):(\d{2})/g)].map(m=>({day,start:Number(m[1])*60+Number(m[2]),end:Number(m[3])*60+Number(m[4])}));
+}
+function updateClashes(selected){
+const list=document.querySelector('#clash-list');list.replaceChildren();
+const clock=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
+for(let i=0;i<selected.length;i++)for(let j=i+1;j<selected.length;j++){
+const overlaps=[];
+for(const a of sessions(selected[i]))for(const b of sessions(selected[j])){
+const start=Math.max(a.start,b.start),end=Math.min(a.end,b.end);
+if(a.day&&a.day===b.day&&start<end)overlaps.push(a.day+' · '+clock(start)+'–'+clock(end));
+}
+if(overlaps.length){const item=document.createElement('li');item.textContent=selected[i].name+' and '+selected[j].name+' — '+[...new Set(overlaps)].join('; ');list.append(item);}
+}
+document.querySelector('#clash-content').hidden=!list.children.length;
+}
 function updateEmail(){
 const selected=visibleGroups.filter(group=>!deselected.has(group.name));
+updateClashes(selected);
 const emailAction=document.querySelector('#email-action'),emailLink=document.querySelector('#email-draft');
 emailAction.hidden=!visibleGroups.length;
 emailLink.hidden=!selected.length;
@@ -31,6 +49,7 @@ slider.style.setProperty('--progress',(level/10*100)+'%');
 const list=document.querySelector('#matches');list.replaceChildren();
 const ready=instrument.value&&validAge;
 document.querySelector('#county-message').hidden=!(ready&&!beginner&&selectedAge!=='adult'&&level>=levels.indexOf('Grade 6'));
+document.querySelector('#beginner-contact').hidden=!(ready&&beginner&&selectedAge!=='adult'&&selectedAge>=14&&selectedAge<=18);
 const allGroups=ready?matches(instrument.value,level,selectedAge):[];
 visibleGroups=allGroups.filter(group=>showChoirs.checked||!group.name.includes('Choir'));
 document.querySelector('#count').textContent=ready?visibleGroups.length+' found':'';
