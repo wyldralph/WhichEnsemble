@@ -10,7 +10,7 @@ export const instruments=[noInstrument,...strings,...woodwind,...brass,...percus
 const group=(name,time,min,max,accepted='all',age='young')=>({name,time,min,max,accepted,age});
 export const ensembles=[
 group('Hi-Gain','Tuesday · 17:00–19:00',4,10,[...woodwind,...brass,'Guitar','Bass guitar','Drums / Percussion','Piano / Keyboard','Voice / Singing']),
-group('Training Brass Ensemble','Saturday · 09:00–10:00',0,5,brass),
+group('Amazing Brass','Saturday · 09:00–10:00',0,5,brass),
 group('Training Orchestra','Saturday · 09:15–10:00',2,6,orchestra),
 group('Prep Choir','Saturday · 09:30–10:00',0,10,'all','5-9'),
 group('Chamber Strings','Saturday · 09:30–10:00',7,10,strings),
